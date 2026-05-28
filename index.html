@@ -483,12 +483,11 @@ function submitForm() {
   }
   if (covType === 'Engage a contingency support') {
     body += getField('Proposed temp title / scope', g(allInputs[3]));
-    body += getField('Leave taker annual salary', g(document.getElementById('annual-salary')));
     body += getField('Estimated hourly rate', gt('calc-hourly'));
     body += getField('Low estimate (18 wks + 30% fee)', gt('calc-low'));
     body += getField('High estimate (24 wks + 30% fee)', gt('calc-high'));
     body += getField('Estimated total (midpoint)', gt('calc-total'));
-    body += getField('Staffing agency / sourcing', g(allInputs[4]));
+    body += getField('Staffing agency / sourcing', g(allInputs[5]));
     body += getField('Justification', g(allTextareas[3]));
   }
   if (covType === 'Accelerate a pre-approved full-time hire') {
