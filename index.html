@@ -378,6 +378,7 @@ textarea{resize:vertical;min-height:88px;line-height:1.5}
             <option>Declined</option>
           </select>
         </div>
+      </div>
     </div>
     <div class="field">
       <label>Approval notes / conditions</label>
@@ -508,8 +509,7 @@ function submitForm() {
 
   body += '--- APPROVALS ---\n';
   body += getField('LT sponsor name', g(allInputs[allInputs.length - 1]));
-  body += getField('LT sponsor decision', g(allSelects[allSelects.length - 2]));
-  body += getField('CEO & CFO decision', g(allSelects[allSelects.length - 1]));
+  body += getField('LT sponsor decision', g(allSelects[allSelects.length - 1]));
   body += getField('Approval notes', g(allTextareas[allTextareas.length - 1]));
   body += '\n================================================\n';
   body += 'Submitted via the OFarm Leave Coverage Request Form.';
