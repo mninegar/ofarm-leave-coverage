@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leave Coverage Request, Once Upon a Farm, PBC</title>
+<link href="https://fonts.googleapis.com/css2?family=Neue+Kabel:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -12,7 +13,7 @@
   --orange-light:#fdf0ec;--orange-border:#f5c4b5;--text:#1a2a38;
   --text-muted:#5a7080;--text-light:#8aa0b0;--border:#d0dfe9;--white:#ffffff;
 }
-body{background:#fffdf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;color:#1a2a38;font-size:15px;line-height:1.6;min-height:100vh}
+body{background:#fffdf3;font-family:'Neue Kabel',-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;color:#1a2a38;font-size:15px;line-height:1.6;min-height:100vh}
 
 /* HEADER */
 .site-header{background:#1d4f78;color:#fff;padding:0 2.5rem;display:flex;align-items:center;min-height:72px}
@@ -45,7 +46,7 @@ body{background:#fffdf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
 /* INPUTS */
 input[type=text],input[type=email],input[type=date],input[type=number],select,textarea{
   width:100%;padding:9px 12px;border:1px solid #d0dfe9;border-radius:6px;
-  font-family:inherit;font-size:14px;color:#1a2a38;background:#fff;
+  font-family:'Neue Kabel',-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;font-size:14px;color:#1a2a38;background:#fff;
   transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none
 }
 input::placeholder,textarea::placeholder{color:#8aa0b0}
@@ -114,7 +115,7 @@ textarea{resize:vertical;min-height:88px;line-height:1.5}
     <div class="alert-icon">!</div>
     <div>
       <strong>We're here to help you navigate this smoothly.</strong> Before submitting, please review the
-      <a href="https://thefarm.onceuponafarmorganics.com/content/834/loas">Leaves of Absence Portal on The Farm</a> and connect with your
+      <a href="https://thefarm.onceuponafarmorganics.com/content/834/loas" target="_blank">Leaves of Absence Portal on The Farm</a> and connect with your
       <strong>People &amp; Culture Partner</strong>. Important: your <strong>LT member should be aligned
       on this request before you hit submit</strong>, as final coverage decisions are made together with
       you, your LT member, and your P&amp;C Partner based on your team's context.
@@ -436,8 +437,7 @@ function selectCov(card, type) {
 
 function getField(label, value) {
   if (!value) return '';
-  var pad = '    ';
-  return pad + label + '\n' + pad + value + '\n\n';
+  return label + ': ' + value + '\n';
 }
 
 function submitForm() {
@@ -459,13 +459,13 @@ function submitForm() {
   body += 'Once Upon a Farm, PBC\n';
   body += '________________________________________________\n\n';
 
-  body += '========  REQUEST DETAILS  ========\n\n';
+  body += '\n========  REQUEST DETAILS  ========\n\n';
   body += getField('Submitting manager', g(allInputs[0]));
   body += getField('Department / team', g(allSelects[0]));
   body += getField('LT member', g(allSelects[1]));
   body += getField('Date submitted', g(allDates[0]));
 
-  body += '========  EMPLOYEE ON LEAVE  ========\n\n';
+  body += '\n========  EMPLOYEE ON LEAVE  ========\n\n';
   body += getField('Employee name', g(allInputs[1]));
   body += getField('Role / title', g(allInputs[2]));
   body += getField('Leave type', g(allSelects[2]));
@@ -474,7 +474,7 @@ function submitForm() {
   body += getField('Leave duration (weeks)', g(allNumbers[0]));
   body += getField('Key responsibilities', g(allTextareas[0]));
 
-  body += '========  COVERAGE RECOMMENDATION  ========\n\n';
+  body += '\n========  COVERAGE RECOMMENDATION  ========\n\n';
   body += getField('Coverage type selected', covType || 'Not selected');
 
   if (covType === 'Absorb internally') {
@@ -497,13 +497,13 @@ function submitForm() {
   }
   body += getField('Additional coverage notes', g(allTextareas[allTextareas.length - 3]));
 
-  body += '========  COST & BUDGET  ========\n\n';
+  body += '\n========  COST & BUDGET  ========\n\n';
   body += getField('Estimated total coverage cost', g(document.getElementById('total-cost-display')));
   body += getField('Budget source / cost center', g(allInputs[allInputs.length - 3]));
   body += getField('Any funding identified', g(allInputs[allInputs.length - 2]));
   body += getField('CFO notes', g(allTextareas[allTextareas.length - 2]));
 
-  body += '========  APPROVALS  ========\n\n';
+  body += '\n========  APPROVALS  ========\n\n';
   body += getField('LT sponsor name', g(allInputs[allInputs.length - 1]));
   body += getField('LT sponsor decision', g(allSelects[allSelects.length - 1]));
   body += getField('Approval notes', g(allTextareas[allTextareas.length - 1]));
