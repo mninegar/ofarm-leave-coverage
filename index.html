@@ -435,7 +435,9 @@ function selectCov(card, type) {
 }
 
 function getField(label, value) {
-  return value ? label + ': ' + value + '\n' : '';
+  if (!value) return '';
+  var pad = '    ';
+  return pad + label + '\n' + pad + value + '\n\n';
 }
 
 function submitForm() {
@@ -453,18 +455,17 @@ function submitForm() {
   var gt = function(id) { var el = document.getElementById(id); return el ? el.textContent.trim() : ''; };
 
   var body = '';
-  body += 'LEAVE COVERAGE REQUEST FORM\n';
+  body += 'LEAVE COVERAGE REQUEST\n';
   body += 'Once Upon a Farm, PBC\n';
-  body += '================================================\n\n';
+  body += '________________________________________________\n\n';
 
-  body += '--- REQUEST DETAILS ---\n';
+  body += '========  REQUEST DETAILS  ========\n\n';
   body += getField('Submitting manager', g(allInputs[0]));
   body += getField('Department / team', g(allSelects[0]));
   body += getField('LT member', g(allSelects[1]));
   body += getField('Date submitted', g(allDates[0]));
-  body += '\n';
 
-  body += '--- EMPLOYEE ON LEAVE ---\n';
+  body += '========  EMPLOYEE ON LEAVE  ========\n\n';
   body += getField('Employee name', g(allInputs[1]));
   body += getField('Role / title', g(allInputs[2]));
   body += getField('Leave type', g(allSelects[2]));
@@ -472,11 +473,9 @@ function submitForm() {
   body += getField('Estimated return date', g(allDates[2]));
   body += getField('Leave duration (weeks)', g(allNumbers[0]));
   body += getField('Key responsibilities', g(allTextareas[0]));
-  body += '\n';
 
-  body += '--- COVERAGE RECOMMENDATION ---\n';
+  body += '========  COVERAGE RECOMMENDATION  ========\n\n';
   body += getField('Coverage type selected', covType || 'Not selected');
-  body += '\n';
 
   if (covType === 'Absorb internally') {
     body += getField('Team members absorbing duties', g(allTextareas[1]));
@@ -498,20 +497,18 @@ function submitForm() {
     body += getField('Business justification', g(allTextareas[3]));
   }
   body += getField('Additional coverage notes', g(allTextareas[allTextareas.length - 3]));
-  body += '\n';
 
-  body += '--- COST & BUDGET ---\n';
+  body += '========  COST & BUDGET  ========\n\n';
   body += getField('Estimated total coverage cost', g(document.getElementById('total-cost-display')));
   body += getField('Budget source / cost center', g(allInputs[allInputs.length - 3]));
   body += getField('Any funding identified', g(allInputs[allInputs.length - 2]));
   body += getField('CFO notes', g(allTextareas[allTextareas.length - 2]));
-  body += '\n';
 
-  body += '--- APPROVALS ---\n';
+  body += '========  APPROVALS  ========\n\n';
   body += getField('LT sponsor name', g(allInputs[allInputs.length - 1]));
   body += getField('LT sponsor decision', g(allSelects[allSelects.length - 1]));
   body += getField('Approval notes', g(allTextareas[allTextareas.length - 1]));
-  body += '\n================================================\n';
+  body += '________________________________________________\n';
   body += 'Submitted via the OFarm Leave Coverage Request Form.';
 
   var mgr = g(allInputs[0]);
