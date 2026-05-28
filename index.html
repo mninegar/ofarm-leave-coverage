@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leave Coverage Request, Once Upon a Farm, PBC</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#fffdf3;--blue:#4f89be;--blue-dark:#2f6a9e;--blue-deeper:#1d4f78;
+  --blue-light:#e8f2fa;--blue-border:#b8d4eb;--orange:#ec6946;
+  --orange-light:#fdf0ec;--orange-border:#f5c4b5;--text:#1a2a38;
+  --text-muted:#5a7080;--text-light:#8aa0b0;--border:#d0dfe9;--white:#ffffff;
+}
+body{background:#fffdf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;color:#1a2a38;font-size:15px;line-height:1.6;min-height:100vh}
+
+/* HEADER */
+.site-header{background:#1d4f78;color:#fff;padding:0 2.5rem;display:flex;align-items:center;min-height:72px}
+.header-title{font-size:22px;font-weight:500;letter-spacing:.01em;color:#fff}
+
+/* PAGE */
+.page-body{max-width:800px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+
+/* ALERT */
+.alert{background:#e8f2fa;border-left:4px solid #4f89be;border-radius:8px;padding:1.1rem 1.4rem;margin-bottom:2rem;display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.6;color:#1a2a38}
+.alert-icon{flex-shrink:0;width:22px;height:22px;border:2px solid #4f89be;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#4f89be;margin-top:1px}
+.alert a,.alert strong{color:#2f6a9e;font-weight:600}
+
+/* SECTIONS */
+.form-section{background:#fff;border:1px solid #d0dfe9;border-radius:14px;padding:1.6rem 1.8rem;margin-bottom:1.25rem}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4f89be;display:flex;align-items:center;gap:7px;margin-bottom:1.3rem}
+.section-dot{width:7px;height:7px;border-radius:50%;background:#ec6946;flex-shrink:0}
+
+/* GRIDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+
+/* FIELDS */
+.field{margin-bottom:1rem}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:13px;font-weight:500;color:#1a2a38;margin-bottom:5px}
+.field label .req{color:#ec6946;margin-left:2px}
+.field .helper{font-size:12px;color:#5a7080;margin-top:4px;line-height:1.4}
+
+/* INPUTS */
+input[type=text],input[type=email],input[type=date],input[type=number],select,textarea{
+  width:100%;padding:9px 12px;border:1px solid #d0dfe9;border-radius:6px;
+  font-family:inherit;font-size:14px;color:#1a2a38;background:#fff;
+  transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none
+}
+input::placeholder,textarea::placeholder{color:#8aa0b0}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#4f89be;box-shadow:0 0 0 3px rgba(79,137,190,.15)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a7080' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+textarea{resize:vertical;min-height:88px;line-height:1.5}
+
+/* RADIO ROWS */
+.radio-group{display:flex;flex-direction:column;gap:7px}
+.radio-row{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1px solid #d0dfe9;border-radius:6px;background:#fff;cursor:pointer;transition:background .1s,border-color .1s;font-size:14px;line-height:1.4}
+.radio-row:hover{background:#e8f2fa;border-color:#4f89be}
+.radio-row.selected{background:#e8f2fa;border-color:#4f89be}
+.radio-row input[type=radio]{width:auto;padding:0;margin-top:3px;flex-shrink:0;accent-color:#4f89be}
+
+/* COVERAGE CARDS */
+.coverage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:.5rem}
+.cov-card{border:1.5px solid #d0dfe9;border-radius:10px;padding:14px;cursor:pointer;transition:border-color .12s,background .12s;position:relative}
+.cov-card:hover{border-color:#4f89be;background:#e8f2fa}
+.cov-card.selected{border-color:#4f89be;background:#e8f2fa}
+.cov-card input[type=radio]{position:absolute;opacity:0;width:0;height:0}
+.cov-check{width:18px;height:18px;border:1.5px solid #d0dfe9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:8px;transition:background .1s,border-color .1s}
+.cov-card.selected .cov-check{background:#4f89be;border-color:#4f89be}
+.cov-card.selected .cov-check::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+.cov-card-title{font-size:13px;font-weight:700;color:#1a2a38;margin-bottom:4px}
+.cov-card-desc{font-size:12px;color:#5a7080;line-height:1.4}
+
+/* CONDITIONAL BLOCKS */
+.cond-block{background:#fdf0ec;border:1px solid #f5c4b5;border-radius:10px;padding:1.2rem 1.4rem;margin-top:.85rem;display:none}
+.cond-block.show{display:block}
+.cond-block .section-label{color:#ec6946}
+.cond-block input[type=text],.cond-block input[type=date],.cond-block select,.cond-block textarea{background:#fff}
+
+/* INFO NOTE */
+.info-note{background:#fdf0ec;border:1px solid #f5c4b5;border-radius:6px;padding:10px 13px;font-size:13px;color:#7a3010;line-height:1.5;margin-top:.75rem}
+
+/* APPROVAL BOXES */
+.approval-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem}
+.approval-box{border:1px dashed #d0dfe9;border-radius:10px;padding:1rem 1.2rem}
+.approval-box-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5a7080;margin-bottom:10px}
+
+/* FOOTER */
+.form-footer{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid #d0dfe9;flex-wrap:wrap}
+.footer-note{font-size:12px;color:#5a7080;line-height:1.55;max-width:420px}
+.btn-submit{background:#4f89be;color:#fff;border:none;padding:11px 28px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;white-space:nowrap}
+.btn-submit:hover{background:#2f6a9e}
+.btn-submit:active{transform:scale(.98)}
+
+@media(max-width:600px){
+  .grid-2,.grid-3,.approval-row{grid-template-columns:1fr}
+  .site-header{padding:0 1.2rem}
+  .page-body{padding:1.5rem 1rem 3rem}
+  .form-section{padding:1.2rem 1.1rem}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-title">Leave Coverage Request Form</div>
+</header>
+
+<main class="page-body">
+
+  <!-- Alert -->
+  <div class="alert">
+    <div class="alert-icon">!</div>
+    <div>
+      <strong>We're here to help you navigate this smoothly.</strong> Before submitting, please review the
+      <a href="#">Leaves of Absence Portal on The Farm</a> and connect with your
+      <strong>People &amp; Culture Partner</strong>. Important: your <strong>LT member should be aligned
+      on this request before you hit submit</strong>, as final coverage decisions are made together with
+      you, your LT member, and your P&amp;C Partner based on your team's context.
+    </div>
+  </div>
+
+  <!-- Section 1: Request Details -->
+  <div class="form-section">
+    <div class="section-label"><span class="section-dot"></span>Request details</div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Submitting manager (your full name)</label>
+        <input type="text" placeholder="Full name">
+      </div>
+      <div class="field">
+        <label>Department / team</label>
+        <select>
+          <option value="">Select department</option>
+          <option>Admin / Exec</option>
+          <option>E-Com</option>
+          <option>Farm Costs</option>
+          <option>Finance</option>
+          <option>IT</option>
+          <option>Marketing</option>
+          <option>Ops</option>
+          <option>People and Culture</option>
+          <option>Product Dev</option>
+          <option>QA</option>
+          <option>Sales</option>
+          <option>Sustainability</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>LT member</label>
+        <select>
+          <option value="">Select LT member</option>
+          <option>John Foraker, CEO</option>
+          <option>Larry Waldman, President &amp; CFO</option>
+          <option>Cassandra Curtis, Chief Innovation Officer</option>
+          <option>Cheryl Reyes, Chief Customer Officer</option>
+          <option>Katie Marston, Chief Marketing Officer</option>
+          <option>Genevieve Kelly, Chief Legal Officer</option>
+          <option>Chris Folena, Chief Accounting Officer</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Date submitted</label>
+        <input type="date">
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Employee on Leave -->
+  <div class="form-section">
+    <div class="section-label"><span class="section-dot"></span>Employee on leave</div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Employee name</label>
+        <input type="text" placeholder="Full name">
+      </div>
+      <div class="field">
+        <label>Role / title</label>
+        <input type="text" placeholder="Title of role going on leave">
+      </div>
+      <div class="field">
+        <label>Leave type</label>
+        <select>
+          <option value="">Select leave type</option>
+          <option>Parental leave</option>
+          <option>Medical leave</option>
+          <option>Family care leave</option>
+          <option>Military leave</option>
+          <option>Personal leave</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Expected leave start</label>
+        <input type="date">
+      </div>
+      <div class="field">
+        <label>Estimated return date</label>
+        <input type="date">
+      </div>
+      <div class="field">
+        <label>Leave duration (weeks)</label>
+        <input type="number" placeholder="e.g. 12" min="1">
+      </div>
+    </div>
+    <div class="field">
+      <label>Key responsibilities requiring coverage</label>
+      <textarea placeholder="List the primary duties and responsibilities that will need to be covered during this leave…"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 3: Coverage Recommendation -->
+  <div class="form-section">
+    <div class="section-label"><span class="section-dot"></span>Coverage recommendation</div>
+    <div class="field">
+      <label>Recommended coverage approach <span class="req">*</span></label>
+      <p style="font-size:12px;color:#5a7080;margin-bottom:10px;line-height:1.5">Select the option you are recommending. Final coverage type is determined jointly with your LT member and P&amp;C Partner.</p>
+      <div class="coverage-grid">
+        <div class="cov-card" onclick="selectCov(this,'redistribute')">
+          <input type="radio" name="coverage-type" value="redistribute">
+          <div class="cov-check"></div>
+          <div class="cov-card-title">Absorb internally</div>
+          <div class="cov-card-desc">Duties absorbed by existing team members with no new hire.</div>
+        </div>
+        <div class="cov-card" onclick="selectCov(this,'temp')">
+          <input type="radio" name="coverage-type" value="temp">
+          <div class="cov-check"></div>
+          <div class="cov-card-title">Engage a contingency support</div>
+          <div class="cov-card-desc">Bring in a contract or temp worker for 6 to 8 months to cover the leave, not to exceed 12 months.</div>
+        </div>
+        <div class="cov-card" onclick="selectCov(this,'backfill')">
+          <input type="radio" name="coverage-type" value="backfill">
+          <div class="cov-check"></div>
+          <div class="cov-card-title">Accelerate a pre-approved full-time hire</div>
+          <div class="cov-card-desc">Begin recruiting a permanent FTE addition already pre-approved on the hiring plan, we're just moving up the hiring timeline.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cond-block" id="cov-redistribute">
+      <div class="section-label"><span class="section-dot"></span>Redistribution details</div>
+      <div class="field">
+        <label>Which team members will absorb responsibilities?</label>
+        <textarea placeholder="Name each person and the specific duties they will take on…"></textarea>
+      </div>
+      <div class="field">
+        <label>Capacity / workload impact</label>
+        <textarea rows="2" placeholder="Describe any workload impact and how it will be managed…"></textarea>
+      </div>
+    </div>
+
+    <div class="cond-block" id="cov-temp">
+      <div class="section-label"><span class="section-dot"></span>Contingency support details</div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Proposed temp title / scope</label>
+          <input type="text" placeholder="e.g. Temp Marketing Coordinator">
+        </div>
+        <div class="field">
+          <label>Leave taker's current annual salary <span class="req">*</span></label>
+          <input type="text" id="annual-salary" placeholder="e.g. 85000" oninput="calcContingencyCost()" style="font-size:14px">
+          <div class="helper">Enter the annual salary of the employee going on leave. We'll use this to estimate contingency cost.</div>
+        </div>
+      </div>
+
+      <div id="cost-calc-result" style="display:none;background:#fff;border:1px solid #b8d4eb;border-radius:10px;padding:1.1rem 1.4rem;margin:.75rem 0">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4f89be;margin-bottom:.85rem">Estimated contingency cost breakdown</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin-bottom:.85rem">
+          <div style="background:#e8f2fa;border-radius:8px;padding:.75rem 1rem">
+            <div style="font-size:11px;color:#5a7080;margin-bottom:3px">Hourly rate</div>
+            <div style="font-size:18px;font-weight:700;color:#1d4f78" id="calc-hourly">$0.00</div>
+            <div style="font-size:11px;color:#8aa0b0">Annual salary / 2,080 hrs</div>
+          </div>
+          <div style="background:#e8f2fa;border-radius:8px;padding:.75rem 1rem">
+            <div style="font-size:11px;color:#5a7080;margin-bottom:3px">Low estimate (18 wks)</div>
+            <div style="font-size:18px;font-weight:700;color:#1d4f78" id="calc-low">$0.00</div>
+            <div style="font-size:11px;color:#8aa0b0">+ 30% sourcing fee</div>
+          </div>
+          <div style="background:#e8f2fa;border-radius:8px;padding:.75rem 1rem">
+            <div style="font-size:11px;color:#5a7080;margin-bottom:3px">High estimate (24 wks)</div>
+            <div style="font-size:18px;font-weight:700;color:#1d4f78" id="calc-high">$0.00</div>
+            <div style="font-size:11px;color:#8aa0b0">+ 30% sourcing fee</div>
+          </div>
+          <div style="background:#fdf0ec;border:1px solid #f5c4b5;border-radius:8px;padding:.75rem 1rem">
+            <div style="font-size:11px;color:#5a7080;margin-bottom:3px">Estimated total cost</div>
+            <div style="font-size:18px;font-weight:700;color:#ec6946" id="calc-total">$0.00</div>
+            <div style="font-size:11px;color:#8aa0b0">Midpoint of range</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#5a7080;line-height:1.5">Assumptions: 40 hrs/week, 30% agency sourcing fee, 18 to 24 week leave window. This estimate auto-populates the "Estimated total coverage cost" field below.</div>
+      </div>
+
+      <div class="field">
+        <label>Staffing agency or sourcing approach</label>
+        <input type="text" placeholder="Agency name, or describe sourcing plan">
+      </div>
+      <div class="field">
+        <label>Justification for temp vs. redistribution</label>
+        <textarea rows="2" placeholder="Why is a temp hire the right approach for this coverage gap?"></textarea>
+      </div>
+    </div>
+
+    <div class="cond-block" id="cov-backfill">
+      <div class="section-label"><span class="section-dot"></span>Early backfill details</div>
+      <div class="info-note">
+        <strong>Note:</strong> An early backfill is a permanent hire initiated before the employee returns. This requires a separate <strong>Headcount Addition Request</strong> and CFO approval.
+      </div>
+      <div class="grid-2" style="margin-top:.85rem">
+        <div class="field">
+          <label>Proposed role title</label>
+          <input type="text" placeholder="Same or modified title?">
+        </div>
+        <div class="field">
+          <label>Target start / recruitment timeline</label>
+          <input type="text" placeholder="e.g. Begin recruiting month 2 of leave">
+        </div>
+      </div>
+      <div class="field">
+        <label>Business justification for early backfill</label>
+        <textarea placeholder="Why can the team not wait until the employee returns or their departure is confirmed? What is the operational risk?"></textarea>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:1rem">
+      <label>Additional coverage notes</label>
+      <textarea rows="2" placeholder="Any other context, dependencies, or considerations the LT member and P&C Partner should know…"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 4: Cost & Budget -->
+  <div class="form-section">
+    <div class="section-label"><span class="section-dot"></span>Cost &amp; budget</div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Estimated total coverage cost</label>
+        <input type="text" id="total-cost-display" placeholder="Auto-calculated when salary is entered above" readonly style="background:#f5f8fc;color:#1d4f78;font-weight:600;cursor:default">
+        <div class="helper">Midpoint estimate based on leave taker's salary, 18 to 24 week leave window, and 30% sourcing fee. Populate the salary field in the contingency section above to calculate.</div>
+      </div>
+      <div class="field">
+        <label>Budget source / cost center</label>
+        <input type="text" placeholder="Department or cost center code">
+      </div>
+      <div class="field">
+        <label>Any funding identified?</label>
+        <input type="text" placeholder="Reallocation, open headcount, etc.">
+      </div>
+    </div>
+    <div class="field">
+      <label>CFO notes (for finance use)</label>
+      <textarea rows="2" placeholder="To be completed by finance / CFO office upon review…" style="background:#fafafa;color:#5a7080"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 5: Approvals -->
+  <div class="form-section">
+    <div class="section-label"><span class="section-dot"></span>Approvals</div>
+    <p style="font-size:13px;color:#5a7080;margin-bottom:1.1rem;line-height:1.5">
+      This form requires sign-off from the submitting manager's LT sponsor and final SOX approval from the CEO &amp; CFO before any coverage action is taken.
+    </p>
+    <div class="approval-row">
+      <div class="approval-box">
+        <div class="approval-box-label">LT sponsor sign-off</div>
+        <div class="grid-2" style="gap:.75rem">
+          <div class="field" style="margin:0"><input type="text" placeholder="Name"></div>
+          <div class="field" style="margin:0"><input type="date"></div>
+        </div>
+        <div class="field" style="margin-top:.65rem;margin-bottom:0">
+          <select>
+            <option value="">Decision</option>
+            <option>Approved</option>
+            <option>Approved with modifications</option>
+            <option>Needs revision</option>
+            <option>Declined</option>
+          </select>
+        </div>
+      </div>
+      <div class="approval-box">
+        <div class="approval-box-label">CEO &amp; CFO approval</div>
+        <div class="grid-2" style="gap:.75rem">
+          <div class="field" style="margin:0"><input type="text" placeholder="Name"></div>
+          <div class="field" style="margin:0"><input type="date"></div>
+        </div>
+        <div class="field" style="margin-top:.65rem;margin-bottom:0">
+          <select>
+            <option value="">Decision</option>
+            <option>Approved</option>
+            <option>Approved with modifications</option>
+            <option>Needs revision</option>
+            <option>Declined</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Approval notes / conditions</label>
+      <textarea rows="2" placeholder="Any conditions, modifications, or notes attached to this approval…"></textarea>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="form-footer">
+    <div class="footer-note">
+      By submitting, you confirm this request has been discussed with your LT sponsor and P&amp;C Partner.
+      No coverage action should begin until CEO &amp; CFO approval is received.
+    </div>
+    <button class="btn-submit" onclick="submitForm()">Submit for approval</button>
+  </div>
+
+</main>
+
+<script>
+function calcContingencyCost() {
+  var raw = document.getElementById('annual-salary').value.replace(/[^0-9.]/g, '');
+  var annual = parseFloat(raw);
+  var result = document.getElementById('cost-calc-result');
+  var totalField = document.getElementById('total-cost-display');
+  if (!annual || annual <= 0) {
+    result.style.display = 'none';
+    totalField.value = '';
+    return;
+  }
+  var hourly = annual / 2080;
+  var fee = 1.30;
+  var lowCost = hourly * 40 * 18 * fee;
+  var highCost = hourly * 40 * 24 * fee;
+  var midCost = (lowCost + highCost) / 2;
+  var fmt = function(n) { return '$' + Math.round(n).toLocaleString('en-US'); };
+  document.getElementById('calc-hourly').textContent = '$' + hourly.toFixed(2);
+  document.getElementById('calc-low').textContent = fmt(lowCost);
+  document.getElementById('calc-high').textContent = fmt(highCost);
+  document.getElementById('calc-total').textContent = fmt(midCost);
+  totalField.value = fmt(midCost) + ' (est. midpoint)';
+  result.style.display = 'block';
+}
+
+function selectCov(card, type) {
+  document.querySelectorAll('.cov-card').forEach(function(c) { c.classList.remove('selected'); });
+  card.classList.add('selected');
+  card.querySelector('input[type=radio]').checked = true;
+  ['redistribute', 'temp', 'backfill'].forEach(function(t) {
+    var b = document.getElementById('cov-' + t);
+    if (b) { b.classList.remove('show'); }
+  });
+  var target = document.getElementById('cov-' + type);
+  if (target) { target.classList.add('show'); }
+}
+
+function getField(label, value) {
+  return value ? label + ': ' + value + '\n' : '';
+}
+
+function submitForm() {
+  var covType = '';
+  var covCard = document.querySelector('.cov-card.selected .cov-card-title');
+  if (covCard) { covType = covCard.textContent.trim(); }
+
+  var allInputs = document.querySelectorAll('input[type=text]');
+  var allSelects = document.querySelectorAll('select');
+  var allDates = document.querySelectorAll('input[type=date]');
+  var allTextareas = document.querySelectorAll('textarea');
+  var allNumbers = document.querySelectorAll('input[type=number]');
+
+  var g = function(el) { return el ? el.value.trim() : ''; };
+  var gt = function(id) { var el = document.getElementById(id); return el ? el.textContent.trim() : ''; };
+
+  var body = '';
+  body += 'LEAVE COVERAGE REQUEST FORM\n';
+  body += 'Once Upon a Farm, PBC\n';
+  body += '================================================\n\n';
+
+  body += '--- REQUEST DETAILS ---\n';
+  body += getField('Submitting manager', g(allInputs[0]));
+  body += getField('Department / team', g(allSelects[0]));
+  body += getField('LT member', g(allSelects[1]));
+  body += getField('Date submitted', g(allDates[0]));
+  body += '\n';
+
+  body += '--- EMPLOYEE ON LEAVE ---\n';
+  body += getField('Employee name', g(allInputs[1]));
+  body += getField('Role / title', g(allInputs[2]));
+  body += getField('Leave type', g(allSelects[2]));
+  body += getField('Expected leave start', g(allDates[1]));
+  body += getField('Estimated return date', g(allDates[2]));
+  body += getField('Leave duration (weeks)', g(allNumbers[0]));
+  body += getField('Key responsibilities', g(allTextareas[0]));
+  body += '\n';
+
+  body += '--- COVERAGE RECOMMENDATION ---\n';
+  body += getField('Coverage type selected', covType || 'Not selected');
+  body += '\n';
+
+  if (covType === 'Absorb internally') {
+    body += getField('Team members absorbing duties', g(allTextareas[1]));
+    body += getField('Capacity / workload impact', g(allTextareas[2]));
+  }
+  if (covType === 'Engage a contingency support') {
+    body += getField('Proposed temp title / scope', g(allInputs[3]));
+    body += getField('Leave taker annual salary', g(document.getElementById('annual-salary')));
+    body += getField('Estimated hourly rate', gt('calc-hourly'));
+    body += getField('Low estimate (18 wks + 30% fee)', gt('calc-low'));
+    body += getField('High estimate (24 wks + 30% fee)', gt('calc-high'));
+    body += getField('Estimated total (midpoint)', gt('calc-total'));
+    body += getField('Staffing agency / sourcing', g(allInputs[4]));
+    body += getField('Justification', g(allTextareas[3]));
+  }
+  if (covType === 'Accelerate a pre-approved full-time hire') {
+    body += getField('Proposed role title', g(allInputs[3]));
+    body += getField('Recruitment timeline', g(allInputs[4]));
+    body += getField('Business justification', g(allTextareas[3]));
+  }
+  body += getField('Additional coverage notes', g(allTextareas[allTextareas.length - 3]));
+  body += '\n';
+
+  body += '--- COST & BUDGET ---\n';
+  body += getField('Estimated total coverage cost', g(document.getElementById('total-cost-display')));
+  body += getField('Budget source / cost center', g(allInputs[allInputs.length - 3]));
+  body += getField('Any funding identified', g(allInputs[allInputs.length - 2]));
+  body += getField('CFO notes', g(allTextareas[allTextareas.length - 2]));
+  body += '\n';
+
+  body += '--- APPROVALS ---\n';
+  body += getField('LT sponsor name', g(allInputs[allInputs.length - 1]));
+  body += getField('LT sponsor decision', g(allSelects[allSelects.length - 2]));
+  body += getField('CEO & CFO decision', g(allSelects[allSelects.length - 1]));
+  body += getField('Approval notes', g(allTextareas[allTextareas.length - 1]));
+  body += '\n================================================\n';
+  body += 'Submitted via the OFarm Leave Coverage Request Form.';
+
+  var mgr = g(allInputs[0]);
+  var dt = g(allDates[0]);
+  var subject = 'Leave Coverage Request' + (mgr ? ': ' + mgr : '') + (dt ? ' (' + dt + ')' : '');
+  var mailto = 'mailto:melissa@uponafarm.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+}
+
+document.querySelectorAll('.radio-row').forEach(function(row) {
+  row.addEventListener('click', function() {
+    var inp = row.querySelector('input');
+    if (inp) { inp.checked = true; inp.dispatchEvent(new Event('change')); }
+    var grp = row.closest('.radio-group');
+    if (grp) { grp.querySelectorAll('.radio-row').forEach(function(r) { r.classList.remove('selected'); }); }
+    row.classList.add('selected');
+  });
+});
+</script>
+</body>
+</html>
