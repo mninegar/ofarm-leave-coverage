@@ -351,10 +351,7 @@ textarea{resize:vertical;min-height:88px;line-height:1.5}
         <input type="text" placeholder="Reallocation, open headcount, etc.">
       </div>
     </div>
-    <div class="field">
-      <label>CFO notes (for finance use)</label>
-      <textarea rows="2" placeholder="To be completed by finance / CFO office upon review…" style="background:#fafafa;color:#5a7080"></textarea>
-    </div>
+
   </div>
 
   <!-- Section 5: Approvals -->
@@ -501,7 +498,7 @@ function submitForm() {
   body += getField('Estimated total coverage cost', g(document.getElementById('total-cost-display')));
   body += getField('Budget source / cost center', g(allInputs[allInputs.length - 3]));
   body += getField('Any funding identified', g(allInputs[allInputs.length - 2]));
-  body += getField('CFO notes', g(allTextareas[allTextareas.length - 2]));
+
 
   body += '\n========  APPROVALS  ========\n\n';
   body += getField('LT sponsor name', g(allInputs[allInputs.length - 1]));
