@@ -449,6 +449,12 @@ function submitForm() {
 
   var g = function(el) { return el ? el.value.trim() : ''; };
   var gt = function(id) { var el = document.getElementById(id); return el ? el.textContent.trim() : ''; };
+  var gd = function(el) {
+    if (!el || !el.value) return '';
+    var parts = el.value.split('-');
+    if (parts.length !== 3) return el.value;
+    return parts[1] + '/' + parts[2] + '/' + parts[0];
+  };
 
   var body = '';
   body += 'LEAVE COVERAGE REQUEST\n';
@@ -459,14 +465,14 @@ function submitForm() {
   body += getField('Submitting manager', g(allInputs[0]));
   body += getField('Department / team', g(allSelects[0]));
   body += getField('LT member', g(allSelects[1]));
-  body += getField('Date submitted', g(allDates[0]));
+  body += getField('Date submitted', gd(allDates[0]));
 
   body += '\n========  EMPLOYEE ON LEAVE  ========\n\n';
   body += getField('Employee name', g(allInputs[1]));
   body += getField('Role / title', g(allInputs[2]));
   body += getField('Leave type', g(allSelects[2]));
-  body += getField('Expected leave start', g(allDates[1]));
-  body += getField('Estimated return date', g(allDates[2]));
+  body += getField('Expected leave start', gd(allDates[1]));
+  body += getField('Estimated return date', gd(allDates[2]));
   body += getField('Leave duration (weeks)', g(allNumbers[0]));
   body += getField('Key responsibilities', g(allTextareas[0]));
 
@@ -501,13 +507,14 @@ function submitForm() {
 
   body += '\n========  APPROVALS  ========\n\n';
   body += getField('LT sponsor name', g(allInputs[allInputs.length - 1]));
+  body += getField('LT sponsor date', gd(allDates[allDates.length - 1]));
   body += getField('LT sponsor decision', g(allSelects[allSelects.length - 1]));
   body += getField('Approval notes', g(allTextareas[allTextareas.length - 1]));
   body += '________________________________________________\n';
   body += 'Submitted via the OFarm Leave Coverage Request Form.';
 
   var mgr = g(allInputs[0]);
-  var dt = g(allDates[0]);
+  var dt = gd(allDates[0]);
   var subject = 'Leave Coverage Request' + (mgr ? ': ' + mgr : '') + (dt ? ' (' + dt + ')' : '');
   var mailto = 'mailto:melissa@uponafarm.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   window.location.href = mailto;
